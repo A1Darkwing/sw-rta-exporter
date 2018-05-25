@@ -47,7 +47,7 @@ module.exports = {
     //If enemies is not empty then log 
     if (enemiesList.length > 0) {
       proxy.log({
-        type: 'info',
+        type: 'success',
         source: 'plugin',
         name: this.pluginName,
         message: this.mountEnemiesListHtml(enemiesList)
@@ -82,22 +82,15 @@ module.exports = {
     
     let rtaFileNname = sanitize(`RTA-${profileExport.profileName}`).concat('.json');
 
-    let message = '';
-    
+    let message = 'The enemy monsters : <br/>';
     units.forEach((unit) => {
       let monsterName = gMapping.getMonsterName(unit.unit.unit_master_id);
-      
-      // let mes = `<div class="rune item">
-      //             <div class="ui image blue label">
-      //               <img src="../assets/runes/Violent.png" />
-      //               <span class="upgrade"></span>  
-      //             </div>`;
-
-                  let mes = `<div class="rune item">
-                  <div class="ui image blue label">
-                    <span class="upgrade"></span>  
-                  </div>`;
-      
+      let monsterDetails = gMapping.getMonsterInfo(unit.unit.unit_master_id);
+      let monsterUrl = 'https://swarfarm.com/static/herders/images/monsters/' + monsterDetails.image_filename;
+      let mes = `<div class="rune item">
+      <div class="ui image label">
+        <img src="${monsterUrl}" />
+      </div>`;
       mes = mes.concat(`<div class="content">
       <div class="header">${monsterName}</div>
       <div class="description"></div>
@@ -107,7 +100,7 @@ module.exports = {
       message = message.concat(mes);
     });
 
-    return message + `<br/>Saved profile data to ${rtaFileNname}.`;
+    return message + `Saved profile data to ${rtaFileNname}.`;
   },
 
   mountStarsHtml(rune) {
